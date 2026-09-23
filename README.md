@@ -1,89 +1,109 @@
 # PlaceX
 
-- `/` — marketing landing page (static HTML)
-- `/app` — the React application
+**PlaceX** is a placement preparation and exploration platform built for students to understand placement opportunities, check eligibility, compare companies, and prepare for placements in one place.
 
-## Current state (honest summary)
+🔗 **Live App:** https://placex1.vercel.app/app
 
-**Working and verified by compiling the code (no live network in this build
-environment, so nothing below was tested in an actual browser):**
-- Real placement data: 325 records from the two IIT Madras Bluebooks
-  (`src/placex-bluebook-data.json`), loaded into `PLACEX_DATA.companies`.
-- Explore, My Matches, Saved, Placement Days (grouped by year — the source
-  data has no day-of-visit field, so nothing was invented there), Compare,
-  and the company detail page all render real filtered/derived data instead
-  of empty-state placeholders.
-- Eligibility matching (branch + CGPA) is computed live against your profile.
-- Save/unsave persists via `localStorage`.
-- Onboarding asks for the user's own name (no placeholder name anywhere).
-- Cursor glow effect is now scoped to the landing page only.
-- "Ask PlaceX AI" calls a serverless function (`api/chat.js`) that proxies
-  to Google's Gemini API (free tier), keeping the API key server-side.
+## What is PlaceX?
 
-**Explicitly NOT done in this pass — said plainly rather than pretended:**
-- The full Striver A2Z DSA problem bank (hundreds of problems) was not
-  built. The DSA page still shows an honest "no problem bank loaded"
-  state rather than fabricated problems.
-- Extra Preparation domains beyond what's already in `PREP_DOMAINS` (OS,
-  Computer Networks, Statistics, Aptitude, Data Analytics as a distinct
-  category) were not added — these can be added by extending the
-  `PREP_DOMAINS` array.
-- No external resource links were audited/verified — that requires
-  checking each URL is live, which wasn't done here.
-- No install-to-homescreen (PWA) prompt.
-- Responsive testing at specific breakpoints was not performed.
-- The role category filter (`Software`/`Data`/`ML / AI`/etc.) is derived
-  from keyword-matching each company's job title/description, since the
-  Bluebook data has no role-category field. It's a best-effort label, not
-  guaranteed accurate for every record.
+PlaceX brings placement-related information into a simple interactive platform.
 
-## What changed from the original chat build
+Students can:
 
-This app was originally built inside a Claude.ai artifact, which provides
-things that don't exist on a normal website:
+* 🔎 Explore companies and placement opportunities
+* 🎯 Find companies they are eligible for based on branch and CGPA
+* ❤️ Save companies for later
+* 📊 Compare different companies
+* 📅 Explore placement information by year
+* 👤 Create their own profile
+* 🤖 Ask PlaceX AI questions related to placements
+* 📚 Access placement preparation resources
 
-1. `window.storage` (a built-in key-value store) → replaced with browser
-   `localStorage` in `src/PlaceXApp.jsx`.
-2. A direct, pre-authenticated `fetch` to an AI API → replaced with a call
-   to `/api/chat`, a Vercel serverless function (`api/chat.js`) that holds
-   your Gemini API key server-side. Never call the Gemini API directly
-   from the browser in production — it would expose your key.
+## Main Features
 
-## Deploy to Vercel via GitHub
+### Explore
 
-1. **Push this project to GitHub** using git (not the web upload button —
-   it silently drops subfolders like `src/` and `api/`):
-   ```bash
-   git init
-   git add .
-   git commit -m "PlaceX deploy"
-   git branch -M main
-   git remote add origin https://github.com/<your-username>/<repo>.git
-   git push -u origin main
-   ```
+Browse real placement data from IIT Madras Bluebooks and filter companies based on different criteria.
 
-2. **Import into Vercel** at https://vercel.com/new
+### My Matches
 
-3. **Set the build settings explicitly** (Project → Settings →
-   Build and Deployment) — don't rely on auto-detect:
-   - Framework Preset: `Vite`
-   - Build Command: `npm run build`
-   - Output Directory: `dist`
-   - Install Command: `npm install`
+PlaceX checks your **branch and CGPA** against company eligibility requirements and shows relevant opportunities.
 
-4. **Add your Gemini API key** — Project → Settings → Environment Variables:
-   - `GEMINI_API_KEY` = your key from https://aistudio.google.com/apikey
-     (free, no credit card required)
+### Saved
 
-5. **Redeploy** from the Deployments tab.
+Save interesting companies and access them later. Saved companies are stored locally in your browser.
 
-## Local development
+### Compare
 
-```bash
-npm install
-npm run dev
+Compare companies and their placement information side by side.
+
+### Placement Days
+
+Explore placement information grouped by year based on the available Bluebook data.
+
+### Company Details
+
+View detailed information and derived placement data for individual companies.
+
+### Preparation
+
+Access resources and preparation areas to help get ready for placements.
+
+### PlaceX AI
+
+Ask questions about placements through the **Ask PlaceX AI** feature. The AI requests are handled through a serverless backend using Google's Gemini API, keeping the API key on the server.
+
+## Data
+
+PlaceX currently uses **325 placement records** from two IIT Madras Bluebooks.
+
+The data is stored locally in:
+
+```text
+src/placex-bluebook-data.json
 ```
 
-For the AI assistant to work locally, copy `.env.example` to `.env.local`
-and fill in your key, then use `vercel dev` (not plain `vite`) so the
-`/api/chat` serverless function runs locally too.
+The platform derives filters, eligibility matching, comparisons, and other views from this data.
+
+## Tech Stack
+
+* React
+* JavaScript
+* HTML / CSS
+* Serverless Functions
+* Google Gemini API
+* Vercel
+* LocalStorage
+
+## Project Structure
+
+```text
+PlaceX/
+├── /
+│   └── Marketing landing page
+│
+├── /app
+│   └── React application
+│
+├── api/
+│   └── chat.js
+│
+└── src/
+    └── placex-bluebook-data.json
+```
+
+## Current Limitations
+
+* The complete Striver A2Z DSA problem bank is not currently included.
+* Some preparation domains still need to be added.
+* External preparation-resource links have not been fully audited.
+* Responsive behaviour has not been tested at every breakpoint.
+* Role categories are derived from company/job descriptions and may not always be perfectly accurate.
+
+## Live Website
+
+👉 **https://placex1.vercel.app/app**
+
+---
+
+**PlaceX — Explore. Match. Prepare.**
